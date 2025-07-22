@@ -1,4 +1,7 @@
 
+using InventoryService.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace InventoryService.Api
 {
     public class Program
@@ -6,7 +9,9 @@ namespace InventoryService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            // Add services to the container.
+            builder.Services.AddDbContext<InventoryDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
             // Add services to the container.
 
             builder.Services.AddControllers();

@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using ProductService.Infrastructure.Data;
+
 namespace ProductService.Api
 {
     public class Program
@@ -6,9 +9,9 @@ namespace ProductService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             // Add services to the container.
-
+            builder.Services.AddDbContext<ProductDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

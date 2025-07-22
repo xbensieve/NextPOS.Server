@@ -1,4 +1,4 @@
-﻿namespace ProductService.Domain
+﻿namespace OrderService.Application
 {
     public class Class1
     {
