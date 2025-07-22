@@ -1,4 +1,7 @@
 
+using CustomerService.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace CustomerService.Api
 {
     public class Program
@@ -8,7 +11,7 @@ namespace CustomerService.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<CustomerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
