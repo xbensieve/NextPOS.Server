@@ -29,6 +29,18 @@ namespace AuthService.Api
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -45,6 +57,7 @@ namespace AuthService.Api
 
             app.UseAuthorization();
 
+            app.UseCors("AllowAll");
 
             app.MapControllers();
 
