@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using OrderService.Infrastructure.Data;
+using OrderService.Infrastructure.Interfaces;
+using OrderService.Infrastructure.Messaging;
 
 namespace OrderService.Api
 {
@@ -12,7 +14,9 @@ namespace OrderService.Api
 
             // Add services to the container.
             builder.Services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            builder.Services.AddScoped<IMessagePublisher, RabbitMqPublisher>();
+            builder.Services.AddScoped<OrderService.Application.Services.OrderService>();
+            builder.Services.AddScoped<IMessagePublisher, KafkaPublisher>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
