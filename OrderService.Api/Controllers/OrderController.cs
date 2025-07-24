@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OrderService.Api.Controllers
@@ -8,6 +7,17 @@ namespace OrderService.Api.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        private readonly OrderService.Application.Services.OrderService _orderService;
+        public OrderController(OrderService.Application.Services.OrderService orderService)
+        {
+            _orderService = orderService;
+        }
+        [HttpPost("fake")]
+        public IActionResult CreateFakeOrder()
+        {
+            _orderService.CreateMockOrder();
+            return Ok("Order created and event published to RabbitMQ.");
+        }
         // GET: api/<OrderController>
         [HttpGet]
         public IEnumerable<string> Get()
