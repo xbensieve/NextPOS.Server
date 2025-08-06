@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace AuthService.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -81,6 +83,41 @@ namespace AuthService.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false),
+                    RevokedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsDeleted", "Name", "Permissions", "UpdatedAt", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, false, "Admin", "auth.*,employee.*,product.*,inventory.*,customer.*,order.*,payment.*,report.*", null, null },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, false, "Manager", "product.view,product.update,inventory.view,order.view,report.sales", null, null },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, false, "Cashier", "order.create,order.cancel,payment.process,customer.view", null, null },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, false, "Staff", "product.view,inventory.import,customer.create", null, null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_RoleId",
                 table: "Employees",
@@ -90,6 +127,11 @@ namespace AuthService.Infrastructure.Migrations
                 name: "IX_EmployeesLogs_EmployeeId",
                 table: "EmployeesLogs",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_EmployeeId",
+                table: "RefreshTokens",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
@@ -97,6 +139,9 @@ namespace AuthService.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "EmployeesLogs");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "Employees");
