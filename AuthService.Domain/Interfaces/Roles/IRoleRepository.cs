@@ -6,5 +6,6 @@ namespace AuthService.Domain.Interfaces.Roles
     {
         Task<IEnumerable<Role>> GetAllAsync();
         Task<Role?> GetByIdAsync(Guid id);
+        Task<Role?> GetByNameAsync(string name);
     }
 }

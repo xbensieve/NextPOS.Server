@@ -1,5 +1,7 @@
 ﻿using AuthService.Application;
+using AuthService.Application.BackgroundWorker;
 using AuthService.Application.Behaviors;
+using AuthService.Domain.Interfaces.Email;
 using AuthService.Domain.Interfaces.Employees;
 using AuthService.Domain.Interfaces.JwtToken;
 using AuthService.Domain.Interfaces.Password;
@@ -33,6 +35,9 @@ namespace AuthService.Api.Extensions
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<BackgroundWorker>();
             return services;
         }
     }

@@ -16,8 +16,9 @@ namespace AuthService.Application.Features.Auth.Commands.RegisterEmployee
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
-            RuleFor(x => x.RoleId)
-                .NotEmpty().WithMessage("Role ID is required.");
+            RuleFor(x => x.RoleName)
+                .Must(r => !string.Equals(r, "Admin", StringComparison.OrdinalIgnoreCase))
+                .WithMessage("Cannot register an employee with the Admin role directly. Please use the Admin registration process.");
         }
     }
 }

@@ -18,6 +18,12 @@ namespace AuthService.Infrastructure.Repositories.Employees
             await _context.SaveChangesAsync();
         }
 
+        public Task AddPasswordResetTokenAsync(PasswordResetToken token)
+        {
+            _context.PasswordResetTokens.Add(token);
+            return _context.SaveChangesAsync();
+        }
+
         public async Task AddRefreshToken(RefreshToken token)
         {
             _context.RefreshTokens.Add(token);
@@ -28,6 +34,27 @@ namespace AuthService.Infrastructure.Repositories.Employees
         {
             return await _context.Employees.Include(e => e.Role)
                                            .FirstOrDefaultAsync(e => e.Email == email);
+        }
+
+        public Task<RefreshToken?> GetRefreshTokenAsync(string token)
+        {
+            return _context.RefreshTokens
+                .Include(t => t.Employee)
+                .ThenInclude(e => e.Role)
+                .FirstOrDefaultAsync(t => t.Token == token);
+        }
+
+        public Task<PasswordResetToken?> GetResetPasswordTokenAsync(string token)
+        {
+            return _context.PasswordResetTokens
+                .Include(t => t.Employee)
+                .ThenInclude(e => e.Role)
+                .FirstOrDefaultAsync(t => t.Token == token);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

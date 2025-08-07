@@ -16,6 +16,11 @@ namespace AuthService.Infrastructure.Repositories.Roles
         public async Task<IEnumerable<Role>> GetAllAsync() => await _context.Roles.AsNoTracking().ToListAsync();
 
         public async Task<Role?> GetByIdAsync(Guid id) => await _context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
+        public async Task<Role?> GetByNameAsync(string name)
+        {
+            return await _context.Roles.AsNoTracking()
+                                       .FirstOrDefaultAsync(r => r.Name == name);
 
+        }
     }
 }

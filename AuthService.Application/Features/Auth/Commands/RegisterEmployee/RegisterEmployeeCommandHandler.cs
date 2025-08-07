@@ -25,11 +25,11 @@ namespace AuthService.Application.Features.Auth.Commands.RegisterEmployee
                 throw new InvalidOperationException($"An employee with email {request.Email} already exists.");
             }
 
-            var role = await _roleRepository.GetByIdAsync(Guid.Parse(request.RoleId.Trim()));
+            var role = await _roleRepository.GetByNameAsync(request.RoleName);
 
             if (role == null)
             {
-                throw new InvalidOperationException($"Role with ID {request.RoleId} does not exist.");
+                throw new InvalidOperationException($"Role '{request.RoleName}' does not exist.");
             }
 
             var newEmployee = new Employee
@@ -38,7 +38,7 @@ namespace AuthService.Application.Features.Auth.Commands.RegisterEmployee
                 Name = request.Name,
                 Email = request.Email,
                 PasswordHash = _passwordHasher.HashPassword(request.Password),
-                RoleId = Guid.Parse(request.RoleId)
+                RoleId = role.Id,
             };
 
             await _employeeRepository.AddAsync(newEmployee);
