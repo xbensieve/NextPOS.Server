@@ -6,7 +6,7 @@ namespace AuthService.Domain.Base
     {
         public Guid Id { get; set; }
         [Column(TypeName = "datetime2")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
         [Column(TypeName = "datetime2")]
         public DateTime? UpdatedAt { get; set; }
         public Guid? CreatedBy { get; set; }

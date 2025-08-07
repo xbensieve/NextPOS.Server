@@ -1,9 +1,11 @@
 ﻿using AuthService.Domain.Entities;
-using AuthService.Infrastructure.DTOs;
+using AuthService.Domain.Interfaces.JwtToken;
+using AuthService.Domain.Models.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace AuthService.Infrastructure.Services;
@@ -17,42 +19,54 @@ public class JwtService : IJwtService
         _configuration = configuration;
     }
 
-    public AuthResponseDto GenerateToken(Employee user)
+    public JwtTokenResult GenerateToken(Employee employee)
     {
-        var jwtSection = _configuration.GetSection("Jwt");
+        var secretKey = _configuration["JwtSettings:SecretKey"];
+        var issuer = _configuration["JwtSettings:Issuer"];
+        var audience = _configuration["JwtSettings:Audience"];
+        var expirationMinutes = int.Parse(_configuration["JwtSettings:AccessTokenExpirationMinutes"] ?? "15");
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"]!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var expires = DateTime.UtcNow.AddMinutes(double.Parse(jwtSection["ExpiresInMinutes"]!));
-
-        var claims = new List<Claim>
+        var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Role, user.Role?.Name ?? string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+                new Claim(JwtRegisteredClaimNames.Sub, employee.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, employee.Email),
+                new Claim(ClaimTypes.Name, employee.Name),
+                new Claim(ClaimTypes.Role, employee.Role?.Name ?? "User"),
+                new Claim("EmployeeCode", employee.EmployeeCode),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var expires = DateTime.UtcNow.AddMinutes(expirationMinutes);
+
+        var token = new JwtSecurityToken(
+            issuer: issuer,
+            audience: audience,
+            claims: claims,
+            expires: expires,
+            signingCredentials: credentials);
+
+        return new JwtTokenResult
         {
-            Subject = new ClaimsIdentity(claims),
-            Expires = expires,
-            Issuer = jwtSection["Issuer"],
-            Audience = jwtSection["Audience"],
-            SigningCredentials = credentials
-        };
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-        var accessToken = tokenHandler.WriteToken(securityToken);
-
-        return new AuthResponseDto
-        {
-            AccessToken = accessToken,
-            RefreshToken = Guid.NewGuid().ToString(),
+            Token = new JwtSecurityTokenHandler().WriteToken(token),
             ExpiresAt = expires
+        };
+    }
+
+    public JwtTokenResult GenerateRefreshToken()
+    {
+        var expirationDays = int.Parse(_configuration["JwtSettings:RefreshTokenExpirationDays"] ?? "7");
+
+        var randomNumber = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+
+        return new JwtTokenResult
+        {
+            Token = Convert.ToBase64String(randomNumber),
+            ExpiresAt = DateTime.UtcNow.AddDays(expirationDays)
         };
     }
 }

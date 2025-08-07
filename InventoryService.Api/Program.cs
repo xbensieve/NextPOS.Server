@@ -1,5 +1,8 @@
 
 using InventoryService.Infrastructure.Data;
+using InventoryService.Infrastructure.Interfaces;
+using InventoryService.Infrastructure.Messaging;
+using InventoryService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryService.Api
@@ -13,14 +16,23 @@ namespace InventoryService.Api
             // Add services to the container.
             builder.Services.AddDbContext<InventoryDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
             // Add services to the container.
-
+            builder.Services.AddSingleton<IInventoryService, FakeInventoryService>();
+            builder.Services.AddSingleton<RabbitMqOrderConsumer>();
+            builder.Services.AddSingleton<KafkaOrderConsumer>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+            var consumer = app.Services.GetRequiredService<RabbitMqOrderConsumer>();
+            consumer.Start();
+            //app.Lifetime.ApplicationStarted.Register(() =>
+            //{
+            //    var scope = app.Services.CreateScope();
+            //    var kafkaConsumer = scope.ServiceProvider.GetRequiredService<KafkaOrderConsumer>();
+            //    Task.Run(() => kafkaConsumer.Start());
+            //});
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -34,6 +46,8 @@ namespace InventoryService.Api
 
 
             app.MapControllers();
+
+            app.MapGet("/", () => "Inventory Service Running");
 
             app.Run();
         }
