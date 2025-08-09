@@ -51,5 +51,11 @@ namespace AuthService.Api.Controllers
             await _mediator.Send(new ForgotPasswordCommand { Email = request.Email });
             return Ok(new { Message = "If the email is valid, a password reset link will be sent." });
         }
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        {
+            await _mediator.Send(new ResetPasswordCommand { Token = request.Token, NewPassword = request.NewPassword });
+            return Ok(new { Message = "Reset password successfully" });
+        }
     }
 }

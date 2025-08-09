@@ -48,7 +48,7 @@ namespace AuthService.Infrastructure.Repositories.Employees
         {
             return _context.PasswordResetTokens
                 .Include(t => t.Employee)
-                .ThenInclude(e => e.Role)
+                .Where(t => t.IsUsed == false)
                 .FirstOrDefaultAsync(t => t.Token == token);
         }
 
