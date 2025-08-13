@@ -1,4 +1,4 @@
-﻿using AuthService.Application.DTOs;
+﻿using AuthService.Application.DTOs.Employee;
 using AuthService.Application.DTOs.Role;
 using AuthService.Domain.Entities;
 using AutoMapper;
