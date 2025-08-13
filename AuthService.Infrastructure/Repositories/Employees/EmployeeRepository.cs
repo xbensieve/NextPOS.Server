@@ -36,6 +36,11 @@ namespace AuthService.Infrastructure.Repositories.Employees
                                            .FirstOrDefaultAsync(e => e.Email == email);
         }
 
+        public Task<Employee?> GetByIdAsync(Guid id)
+        {
+            return _context.Employees.Include(e => e.Role).FirstOrDefaultAsync(e => e.Id == id);
+        }
+
         public Task<RefreshToken?> GetRefreshTokenAsync(string token)
         {
             return _context.RefreshTokens

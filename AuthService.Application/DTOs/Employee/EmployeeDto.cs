@@ -1,4 +1,4 @@
-﻿namespace AuthService.Application.DTOs
+﻿namespace AuthService.Application.DTOs.Employee
 {
     public class EmployeeDto
     {
