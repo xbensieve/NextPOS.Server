@@ -1,4 +1,5 @@
-﻿using ProductService.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductService.Domain.Entities;
 using ProductService.Domain.Interfaces.Categories;
 using ProductService.Infrastructure.Data;
 using System.Linq.Expressions;
@@ -12,40 +13,68 @@ namespace ProductService.Infrastructure.Repositories.Categories
         {
             _dbContext = dbContext;
         }
-
-        public Task AddAsync(Category entity)
+        public async Task AddAsync(Category entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Categories.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
-
-        public Task<Category?> GetByIdAsync(Guid id)
+        public async Task<Category?> GetByIdAsync(Guid id) => await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        public async Task<IEnumerable<Category>> GetListAsync(
+            string? keyword = null,
+            Expression<Func<Category, bool>>? filter = null,
+            Func<IQueryable<Category>, IOrderedQueryable<Category>>? orderBy = null,
+            int pageIndex = 1, int pageSize = 10)
         {
-            throw new NotImplementedException();
-        }
+            IQueryable<Category> query = _dbContext.Categories.Where(c => !c.IsDeleted);
 
-        public Task<IEnumerable<Category>> GetListAsync(string? keyword = null, Expression<Func<Category, bool>>? filter = null, Func<IQueryable<Category>, IOrderedQueryable<Category>>? orderBy = null, int pageIndex = 1, int pageSize = 10)
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(c =>
+                    c.Name.Contains(keyword) ||
+                    (c.Description != null && c.Description.Contains(keyword)));
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+            else
+            {
+                query = query.OrderBy(c => c.CreatedAt);
+            }
+
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return await query.AsNoTracking().ToListAsync();
+        }
+        public async Task HardDeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _dbContext.Categories
+            .Where(c => c.Id == id)
+            .ExecuteDeleteAsync();
         }
-
-        public Task HardDeleteAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IQueryable<Category> Query()
         {
-            throw new NotImplementedException();
+            return _dbContext.Categories.AsNoTracking();
         }
 
-        public Task SoftDeleteAsync(Guid id)
+        public async Task SoftDeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _dbContext.Categories
+                .Where(c => c.Id == id)
+                .ExecuteUpdateAsync(s => s
+                .SetProperty(c => c.IsDeleted, true)
+                .SetProperty(c => c.UpdatedAt, DateTime.UtcNow));
         }
-
-        public Task UpdateAsync(Category entity)
+        public async Task UpdateAsync(Category entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Categories.Update(entity);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
