@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -10,11 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Api", "ProductService.Api\ProductService.Api.csproj", "{E4730B1F-27A8-462C-ADFA-3D6FBEF94F6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Application", "ProductService.Application\ProductService.Application.csproj", "{E198CECB-A664-404F-93AD-015A7C2AF4DF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Domain", "ProductService.Domain\ProductService.Domain.csproj", "{2EE03EF0-ED0A-4238-9E46-86C44DFF7D5D}"
 EndProject
@@ -36,13 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReportService", "ReportServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportService.Api", "ReportService.Api\ReportService.Api.csproj", "{01648437-1583-4E25-80E9-B02817A5321B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{27B1A12C-100F-47A2-BB41-E89102D49CE9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{F4D7C498-D197-4CDC-B2DD-B7DA3F72CF5B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Common", "Shared.Common\Shared.Common.csproj", "{D608FA7B-A69D-4242-91C3-CAAC018DDFFE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Messaging", "Shared.Messaging\Shared.Messaging.csproj", "{B1011A3D-6915-4709-8068-EBA68E8EB333}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.Api", "ApiGateway.Api\ApiGateway.Api.csproj", "{458F3CEC-1250-43A9-80CA-27D2A426A7DF}"
 EndProject
@@ -84,10 +73,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.Application"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.Infrastructure", "PaymentService.Infrastructure\PaymentService.Infrastructure.csproj", "{8495AC37-615B-4A43-BAA5-742A1CA7E746}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppHost", "AppHost", "{28B342FD-787A-4ACF-A70F-FF145F20F8AA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartPOS.AppHost", "SmartPOS.AppHost\SmartPOS.AppHost.csproj", "{B42BFBC5-5EAB-4F66-BEED-C81FEC07452F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,14 +111,6 @@ Global
 		{01648437-1583-4E25-80E9-B02817A5321B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01648437-1583-4E25-80E9-B02817A5321B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01648437-1583-4E25-80E9-B02817A5321B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D608FA7B-A69D-4242-91C3-CAAC018DDFFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D608FA7B-A69D-4242-91C3-CAAC018DDFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D608FA7B-A69D-4242-91C3-CAAC018DDFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D608FA7B-A69D-4242-91C3-CAAC018DDFFE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1011A3D-6915-4709-8068-EBA68E8EB333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1011A3D-6915-4709-8068-EBA68E8EB333}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1011A3D-6915-4709-8068-EBA68E8EB333}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1011A3D-6915-4709-8068-EBA68E8EB333}.Release|Any CPU.Build.0 = Release|Any CPU
 		{458F3CEC-1250-43A9-80CA-27D2A426A7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{458F3CEC-1250-43A9-80CA-27D2A426A7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{458F3CEC-1250-43A9-80CA-27D2A426A7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -206,10 +183,6 @@ Global
 		{8495AC37-615B-4A43-BAA5-742A1CA7E746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8495AC37-615B-4A43-BAA5-742A1CA7E746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8495AC37-615B-4A43-BAA5-742A1CA7E746}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B42BFBC5-5EAB-4F66-BEED-C81FEC07452F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B42BFBC5-5EAB-4F66-BEED-C81FEC07452F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B42BFBC5-5EAB-4F66-BEED-C81FEC07452F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B42BFBC5-5EAB-4F66-BEED-C81FEC07452F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,8 +201,6 @@ Global
 		{4FF9BF5E-D9DE-46FA-8FDB-3182F612D7B9} = {DB4A924F-44AC-42AD-A18B-DC37E687DE3D}
 		{666B43F9-4942-40D9-86E7-14FA2AF74D5E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{01648437-1583-4E25-80E9-B02817A5321B} = {666B43F9-4942-40D9-86E7-14FA2AF74D5E}
-		{D608FA7B-A69D-4242-91C3-CAAC018DDFFE} = {27B1A12C-100F-47A2-BB41-E89102D49CE9}
-		{B1011A3D-6915-4709-8068-EBA68E8EB333} = {27B1A12C-100F-47A2-BB41-E89102D49CE9}
 		{458F3CEC-1250-43A9-80CA-27D2A426A7DF} = {F4D7C498-D197-4CDC-B2DD-B7DA3F72CF5B}
 		{1A01BAE8-0ACD-47CC-A71E-099B2ADC5907} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{EFF75112-771D-43F2-8DEC-80297E63E49F} = {1A01BAE8-0ACD-47CC-A71E-099B2ADC5907}
@@ -250,7 +221,6 @@ Global
 		{CBADEDBE-A5BE-4860-9FE1-0C1056578DFB} = {19AD4E4B-6A9B-469E-A205-72121A6283D9}
 		{65523A1B-ADDA-4AB1-82D4-F097A3753686} = {19AD4E4B-6A9B-469E-A205-72121A6283D9}
 		{8495AC37-615B-4A43-BAA5-742A1CA7E746} = {19AD4E4B-6A9B-469E-A205-72121A6283D9}
-		{B42BFBC5-5EAB-4F66-BEED-C81FEC07452F} = {28B342FD-787A-4ACF-A70F-FF145F20F8AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F90D19FB-C492-4CB5-BC52-98D82E5A2FA0}

@@ -1,136 +1,70 @@
-# .NET Core / ASP.NET Core
-*.csproj.user
-*.suo
+## --- Build & Runtime ---
+[Bb]in/
+[Oo]bj/
+/out/
+
+## --- Visual Studio Specific ---
+.vs/
 *.user
 *.userosscache
 *.sln.docstates
-*.pdb
-*.vs/
-*.vscode/
-bin/
-obj/
-*.dll
-*.exe
+*.suo
 *.cache
-*.log
-*.tlog
-*.aps
-*.bak
-*.tmp
-*.temp
-*.nupkg
-*.snk
+*.ide
+*.pdb
 
-# Visual Studio
+## --- VS Code Specific ---
 .vscode/
-.vs/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 *.code-workspace
 
-# Rider (JetBrains)
+## --- JetBrains Rider / IntelliJ Specific ---
 .idea/
-*.iml
+*.sln.iml
 
-# ASP.NET Core specific
-appsettings.Development.json
-appsettings.Production.json
-appsettings.*.json
-wwwroot/
+## --- User-specific files ---
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.tooling
 
-# Docker
-Dockerfile.user
-*.dockerignore
-docker-compose.override.yml
+## --- .NET Core / ASP.NET Core ---
+project.lock.json
+project.fragment.lock.json
+artifacts/
 
-# Build and test artifacts
+## --- NuGet Packages ---
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# If using the original NuGet repository structure:
+!**/packages/repositories.config
+
+## --- Test Results ---
 TestResults/
-coverage.*
-*.trx
-*.xml
+*.trdx
+*.visualstate.xml
 
-# Dependency directories
-node_modules/
-packages/
-*.lock.json
-
-# Database related
-*.mdf
-*.ldf
-*.sql
-*.sqlite
-*.db
-
-# Logs
-logs/
-*.log
-*.log.*
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Temporary files
-*.tmp
-*.temp
-*.bak
-*.cache
-*.swp
-*~
-
-# OS generated files
+## --- OS Generated Files ---
 .DS_Store
 Thumbs.db
-ehthumbs.db
 Desktop.ini
 
-# Package manager
-NuGet.Config
-NuGetScratch/
+## --- Environment & Secrets ---
+appsettings.Development.json
+appsettings.Local.json
+*.env
+.env
+secrets.json
 
-# Other
-*.pidb
-*.scc
-*.vssscc
-*.vspscc
-*.psess
-*.vsp
-*.vspx
-*.sap
+local.settings.json
 
-# Secrets and sensitive files
-secrets/
-*.key
-*.pem
-*.pfx
-*.cer
-*.crt
-*.pub
-
-# IDE specific
-*.swp
-*~
-.project
-.classpath
-.settings/
-*.launch
-*.sublime-*
-
-# Miscellaneous
-*.bak
-*.cache
-*.ilk
-*.meta
-*.obj
-*.iobj
-*.pdb
-*.ipdb
-*.zip
-*.tar.gz
-*.rar
-*.7z
-
-# Ignore specific folders
-publish/
-dist/
-out/
-build/
+## --- Log files ---
+*.log
+logs/

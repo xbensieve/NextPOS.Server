@@ -1,6 +1,4 @@
-
-using Microsoft.EntityFrameworkCore;
-using ProductService.Infrastructure.Data;
+using ProductService.Api.Extensions;
 
 namespace ProductService.Api
 {
@@ -9,9 +7,23 @@ namespace ProductService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            // Add services to the container.
-            builder.Services.AddDbContext<ProductDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36))));
+
+            builder.Services
+                         .AddApplicationServices()
+                         .AddInfrastructureServices(builder.Configuration)
+                         .AddControllers();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +42,7 @@ namespace ProductService.Api
 
             app.UseAuthorization();
 
+            app.UseCors("AllowAll");
 
             app.MapControllers();
 
